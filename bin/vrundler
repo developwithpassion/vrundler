@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+require 'thor'
+require 'vrundler'
+
+class CLI < Thor
+  class_option :config_file, type: :string, default: "VRundles"
+
+  desc 'install', 'Installs the vim bundles you have specified in your VRundles file'
+  def install
+    ensure_config_file_provided
+
+    load config_file
+    
+    Dir.chdir Bundles.bundles_dir do
+      Bundles.unpack_all_bundles
+    end
+  end
+
+  no_commands do
+    def config_file?
+      File.exist?(config_file)
+    end
+
+    def config_file
+      options[:config_file]
+    end
+
+    def ensure_config_file_provided
+      unless config_file?
+        puts "You need to run this when you are in a folder that contains a VRundlesFile. Or specify a path to a valid VRundler configuration file using --config_file=FILE"
+        exit
+      end
+    end
+  end
+end
+
+CLI.start(ARGV)
