@@ -1,4 +1,9 @@
 #VRundler
+=========
+
+[![Code Climate](http://img.shields.io/codeclimate/github/developwithpassion/thor.svg)][codeclimate]
+
+[codeclimate]: https://codeclimate.com/github/developwithpassion/vrundler
 
 ##Description
 
