@@ -20,100 +20,121 @@ gem install vrundler
 Create a configuration file for VRundler that allows you to specify the bundles you want vim to use. The following code is a configuration file that uses all of the features of vrundler:
 
 ```ruby
-# Specify the path where you want your bundles installed
-bundles_dir '/Users/developwithpassion/.vim_runtime/bundle'
-
-# A github group allows you to specify a github user name
-github 'vim-scripts' do
-
-# A bundle is a named vim plugin repo for the user, you can specify
-# multiple by separating each plugin with a comma, this is useful if you are
-# getting multiple plugins from a single author, you can also specify each plugin
-# with separate calls to: bundle '[PLUGIN]'
-  bundle 'dbext.vim',
-         'vimgrep.vim'
+def windows?
+  RUBY_PLATFORM =~ /(ming|cyg)/
 end
 
-github :altercation do
+bundles_folder = '/to_backup/repositories/developwithpassion/devtools/shared/dotfiles/vim/.vim_runtime/bundle'
+open_source_folder = '/to_backup/repositories/open_source'
+
+if windows?
+  bundles_folder =  '/c/Users/jp/repositories/developwithpassion/devtools/shared/dotfiles/vim/.vim_runtime/bundle'
+  open_source_folder =  '/c/Users/jp/repositories/open_source'
+end
+
+#A utility method I am using to build a qualified github user name that uses an ssh config host from my ssh configuration file
+def github_user(name)
+  "github:#{name}/"
+end
+
+# Specify the path where you want your bundles installed
+bundles_dir bundles_folder
+
+# A git group allows you to specify a git user you wish to clone vim plugins from
+git github_user('vim-scripts') do
+  # A bundle is a named vim plugin repo for the user, you can specify
+  # multiple by separating each plugin with a comma, this is useful if you are
+  # getting multiple plugins from a single author, you can also specify each plugin
+  # with separate calls to: bundle '[PLUGIN]'
+  bundle 'dbext.vim',
+    'vimgrep.vim'
+end
+
+git github_user(:altercation) do
   bundle 'vim-colors-solarized'
 end
 
-github :benmills do
+git github_user(:benmills) do
   bundle 'vimux'
 end
 
-github :developwithpassion do
+git github_user(:developwithpassion) do
   bundle 'TwitVim'
 end
 
 # A symlink bundle is just a vim plugin that is on your local file system somewhere 
 # and you want it symlinked into your vim bundle folder, the first argument is 
 # the name the symlink will be given in your plugin folder
-symlink :dwp_vim_general, '/to_backup/repositories/open_source/dwp_vim_general'
+symlink :dwp_vim_general, File.join(open_source_folder, 'dwp_vim_general')
 
-github :ecomba do
+git github_user(:ecomba) do
   bundle 'vim-ruby-refactoring'
 end
 
-github :elzr do
+git github_user(:elzr) do
   bundle 'vim-json'
 end
 
-github :ervandew do
+git github_user(:ervandew) do
   bundle 'supertab'
 end
 
-github :nanotech do
+git github_user(:nanotech) do
   bundle 'jellybeans.vim'
 end
 
-github :kana do
+#  :honza => %w[vim-snippets],
+git github_user(:kana) do
   bundle 'vim-fakeclip'
 end
 
-github :kien do
+# git :kchmck do
+#   bundle 'vim-coffee-script'
+# end
+
+git github_user(:kien) do
   bundle 'ctrlp.vim'
 end
 
-github :MarcWeber do
+git github_user(:MarcWeber) do
   bundle 'vim-addon-mw-utils'
 end
 
-github :scrooloose do
+git github_user(:scrooloose) do
   bundle 'syntastic' , 
     'nerdtree'
 end
 
-github :jistr do
+git github_user(:jistr) do
   bundle 'vim-nerdtree-tabs'
 end
 
-github :sukima do
+git github_user(:sukima) do
   bundle 'xmledit'
 end
 
-github :timcharper do
+git github_user(:timcharper) do
   bundle 'textile.vim'
 end
 
-github :thoughtbot do
+git github_user(:thoughtbot) do
   bundle 'vim-rspec'
 end
 
-github :pangloss do
+git github_user(:pangloss) do
   bundle 'vim-javascript'
 end
 
-github :SirVer do
+git github_user(:SirVer) do
   bundle 'ultisnips'
 end
 
-github :tomtom do
+git github_user(:tomtom) do
   bundle 'tcomment_vim', 
     'tlib_vim'
 end
 
-github :tpope do
+git github_user(:tpope) do
   bundle 'vim-cucumber', 
     'vim-endwise', 
     'vim-fugitive', 
@@ -126,27 +147,29 @@ github :tpope do
     'vim-vividchalk'
 end
 
-github :Lokaltog do
+git github_user(:Lokaltog) do
   bundle 'vim-distinguished'
 end
 
-github :Valloric do
-  # This demonstrates configuring the bundle using a block, in this 
-  # example I am chdir'ing into the bundle folder after it has downloaded
-  # and running a system command to configure the plugin, in this case for 
-  # YouCompleteMe it initializes its submodules and then installs 
-  # the native extensions
-  bundle 'YouCompleteMe' do |b, context|
-    b.after_download do 
-      Dir.chdir(context.output_folder(b)) do
-        system("git submodule update --init --recursive && ./install.sh")
+git github_user(:Valloric) do
+  unless windows?
+    # This demonstrates configuring the bundle using a block, in this 
+    # example I am chdir'ing into the bundle folder after it has downloaded
+    # and running a system command to configure the plugin, in this case for 
+    # YouCompleteMe it initializes its submodules and then installs 
+    # the native extensions
+    bundle 'YouCompleteMe' do |b, context|
+      b.after_download do 
+        Dir.chdir(context.output_folder(b)) do
+          system("git submodule update --init --recursive && ./install.sh")
+        end
       end
     end
   end
   bundle 'MatchTagAlways'
 end
 
-github 'vim-ruby' do
+git github_user('vim-ruby') do
   bundle 'vim-ruby'
 end
 
