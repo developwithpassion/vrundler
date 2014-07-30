@@ -21,8 +21,8 @@ module VRundler
     Bundles.bundles_dir path
   end
 
-  def github(name, &block)
-    group("http://github.com/#{name}/", &block)
+  def git(user_clone_url, &block)
+    group(user_clone_url, &block)
   end
 
   def vimscripts(&block)
