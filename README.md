@@ -216,6 +216,7 @@ vrundler install --config_file=PATH_TO_YOUR_CONFIG_FILE
 * Refactored from a script I wrote years ago, didn't write tests for it
 * I've used it successfully for a long time (about 4 years). 
 * It's optimized for my workflow. YMMV.
+* Tested on both windows running under mingw and osx
 
 ##License
 
