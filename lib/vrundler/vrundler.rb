@@ -32,6 +32,6 @@ module VRundler
 
     def group(name, &block)
       item = BundleGroup.new(name)
-      configure(item)
+      configure(item, &block)
     end
 end
