@@ -7,7 +7,7 @@
 
 ##Description
 
-vrundler is a simple tool for managing your vim plugins using ruby.
+vrundler is a simple tool I use for managing vim plugins. Not meant to be a vundle competitor, had some downtime one day and decided to refactor one of the old scripts I was using to do vim plugin management. I use pathogen for plugin resolution, so this caters well to supporting it. Just putting the code up here for anyone to look at/use.
 
 ##Installation
 
@@ -218,6 +218,7 @@ vrundler install --config_file=PATH_TO_YOUR_CONFIG_FILE
 ##Caveats
 
 * Minimalist type functionality
+* I'm using pathogen for "script resolution", so this tools is just about unpacking the plugins to where they need to be for pathogen resolution.
 * Refactored from a script I wrote years ago, didn't write tests for it
 * I've used it successfully for a long time (about 4 years). 
 * It's optimized for my workflow. YMMV.
