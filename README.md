@@ -24,13 +24,8 @@ def windows?
   RUBY_PLATFORM =~ /(ming|cyg)/
 end
 
-bundles_folder = '/to_backup/repositories/developwithpassion/devtools/shared/dotfiles/vim/.vim_runtime/bundle'
-open_source_folder = '/to_backup/repositories/open_source'
-
-if windows?
-  bundles_folder =  '/c/Users/jp/repositories/developwithpassion/devtools/shared/dotfiles/vim/.vim_runtime/bundle'
-  open_source_folder =  '/c/Users/jp/repositories/open_source'
-end
+bundles_folder = File.expand_path("~/repositories/developwithpassion/devtools/shared/dotfiles/vim/.vim_runtime/bundle")
+open_source_folder = File.expand_path("~/repositories/open_source")
 
 #A utility method I am using to build a qualified github user name that uses an ssh config host from my ssh configuration file
 def github_user(name)
@@ -43,7 +38,7 @@ bundles_dir bundles_folder
 # A git group allows you to specify a git user you wish to clone vim plugins from
 git github_user('vim-scripts') do
   # A bundle is a named vim plugin repo for the user, you can specify
-  # multiple by separating each plugin with a comma, this is useful if you are
+  # multiple as the method accepts a splat of bundles, this is useful if you are
   # getting multiple plugins from a single author, you can also specify each plugin
   # with separate calls to: bundle '[PLUGIN]'
   bundle 'dbext.vim',
@@ -83,14 +78,9 @@ git github_user(:nanotech) do
   bundle 'jellybeans.vim'
 end
 
-#  :honza => %w[vim-snippets],
 git github_user(:kana) do
   bundle 'vim-fakeclip'
 end
-
-# git :kchmck do
-#   bundle 'vim-coffee-script'
-# end
 
 git github_user(:kien) do
   bundle 'ctrlp.vim'
@@ -127,7 +117,11 @@ end
 
 git github_user(:SirVer) do
   bundle 'ultisnips'
-end
+end unless windows?
+
+git github_user(:garbas) do
+  bundle 'vim-snipmate'
+end if windows?
 
 git github_user(:tomtom) do
   bundle 'tcomment_vim', 
@@ -149,6 +143,10 @@ end
 
 git github_user(:Lokaltog) do
   bundle 'vim-distinguished'
+end
+
+git github_user(:rizzatti) do
+  bundle 'dash.vim'
 end
 
 git github_user(:Valloric) do
@@ -173,6 +171,13 @@ git github_user('vim-ruby') do
   bundle 'vim-ruby'
 end
 
+git github_user('zweifisch') do
+  bundle 'pipe2eval'
+end
+
+git github_user('hdima') do
+  bundle 'python-syntax'
+end
 
 # A vimscripts group allows you to pull down individual script files from vimscripts.org
 vimscripts do
@@ -216,7 +221,10 @@ vrundler install --config_file=PATH_TO_YOUR_CONFIG_FILE
 * Refactored from a script I wrote years ago, didn't write tests for it
 * I've used it successfully for a long time (about 4 years). 
 * It's optimized for my workflow. YMMV.
-* Tested on both windows running under mingw and osx
+* Above script has been run in the following environments:
+    * osx
+    * linux (ubuntu precise64)
+    * mingw under windows
 
 ##License
 
