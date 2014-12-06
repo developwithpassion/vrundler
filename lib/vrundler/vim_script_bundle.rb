@@ -13,7 +13,7 @@ module VRundler
     end
 
     def bundle_specific_unpack
-      log " Downloading script: [#{name}]"
+      puts " Downloading script: [#{name}]"
 
       local_file = File.join(name, script_type, "#{name}.vim")
 
