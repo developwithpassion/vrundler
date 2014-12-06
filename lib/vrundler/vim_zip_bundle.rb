@@ -33,7 +33,7 @@ module VRundler
     end
 
     def bundle_specific_unpack
-      log " Downloading zip: [#{name}]"
+      puts " Downloading zip: [#{name}]"
 
       folder_name = Bundles.bundle_folder(name)
 

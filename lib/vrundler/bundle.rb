@@ -11,7 +11,7 @@ module VRundler
     end
 
     def bundle_specific_unpack
-      log "Unpacking #{url} into #{name}"
+      puts "Unpacking #{url} into #{name}"
       `git clone #{url} #{name}`
     end
 
